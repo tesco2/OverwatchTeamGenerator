@@ -19,12 +19,12 @@ def Generate_Teams():
     teams = []
     while len(teams) < 12:
         #Add Random Role to Team
-        rand =(random.randint(0,len(Players)-1))
+        roleID =(random.randint(0,len(Players)-1))
         #Add Random Player from that Role
-        subrand = random.randint(0,len(Players[rand])-1)
+        playerIndex = random.randint(0,len(Players[roleID])-1)
         #check if player has been added to a team already
-        if (unique_player(teams,[rand,subrand])):
-            teams.append([rand,subrand])
+        if (unique_player(teams,[roleID,playerIndex])):
+            teams.append([roleID,playerIndex])
     return (teams[0:6],teams[6:12])
 
 #Checks if a player has been used already
@@ -86,7 +86,7 @@ def check_valid(team1):
         return False
     return True
 
-#counts what roles a team has
+#Counts what roles a team has
 def count_roles(team):
     teamroles = []
     roles_count = [0,0,0,0,0,0]
@@ -94,7 +94,7 @@ def count_roles(team):
         roles_count[x[0]] += 1
     return (roles_count)
 
-#Caculated difference between SR of the two teams
+#Calculated difference between SR of the two teams
 def Teams_Difference(team1, team2):
     return abs(Teams_Worth(team1)-Teams_Worth(team2))
 #Caculates the SR of a particular team
@@ -119,15 +119,23 @@ def Sort_Teams(Teams):
     Teams.sort(key=lambda x: int(x[2]))
     return Teams
 
+#Sort the players inside a team based on role, for ease of display
+def Sort_Players_In_Team(Team):
+    Team.sort(key=lambda x: int(x[0]))
+    return Team
+
+
 Teams = Generate_Lots()
 Teams = Sort_Teams(Teams)
 
 #Prints Top 5 Teams
 for x in range(0,5):
     print("Team 1")
+    Sort_Players_In_Team(Teams[x][0])
     printteamsafe(Teams[x][0])
     print("-----------------------")
     print("Team 2")
+    Sort_Players_In_Team(Teams[x][1])
     printteamsafe(Teams[x][1])
     print("Difference")
     print(Teams[x][2])
